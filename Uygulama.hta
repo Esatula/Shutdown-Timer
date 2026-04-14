@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>PC Kapatıcı</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<HTA:APPLICATION ID="Kapatici" APPLICATIONNAME="PC Kapatıcı" BORDER="dialog" SCROLL="no" MAXIMIZEBUTTON="no" MINIMIZEBUTTON="no" CONTEXTMENU="no"/>
+<style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #2b2b2b; color: #ffffff; text-align: center; margin-top: 20px; }
+    h3 { margin-top: 0; margin-bottom: 20px; font-weight: normal; font-size: 22px; }
+    button { width: 200px; padding: 12px; margin: 6px; border: none; border-radius: 6px; background-color: #0078D7; color: white; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px;}
+    button:hover { background-color: #005a9e; }
+    .cancel-btn { background-color: #d13438; margin-top: 20px; padding: 14px; font-size: 16px; width: 200px; }
+    .cancel-btn:hover { background-color: #a80000; }
+    input { width: 60px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; text-align: center; font-size: 15px; background-color: #fff; color: #000;}
+    .custom-row { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 15px; }
+    .custom-btn { width: 130px; }
+</style>
+<script>
+    // Pencere boyutu ayarı
+    window.onload = function() {
+        window.resizeTo(320, 580);
+    };
+
+    function Kapat(dk) {
+        var objShell = new ActiveXObject("WScript.Shell");
+        objShell.Run("cmd.exe /c shutdown -s -t " + (dk * 60), 0, true);
+        alert(dk + " dakika sonra kapanacak şekilde ayarlandı.");
+        window.close();
+    }
+
+    function Iptal() {
+        var objShell = new ActiveXObject("WScript.Shell");
+        objShell.Run("cmd.exe /c shutdown -a", 0, true);
+        alert("Zamanlanmış kapanma işlemi iptal edildi.");
+        window.close();
+    }
+
+    function Ozel() {
+        var dk = document.getElementById("ozelDk").value;
+        if (!isNaN(dk) && dk > 0) {
+            Kapat(dk);
+        } else {
+            alert("Lütfen geçerli bir sayı girin.");
+        }
+    }
+</script>
+</head>
+<body>
+    <h3>Zamanlayıcı</h3>
+    <button onclick="Kapat(35)">35 Dakika</button><br>
+    <button onclick="Kapat(60)">1 Saat</button><br>
+    <button onclick="Kapat(90)">1.5 Saat</button><br>
+    <button onclick="Kapat(120)">2 Saat</button><br>
+    
+    <div class="custom-row">
+        <input type="text" id="ozelDk" placeholder="Dk">
+        <button onclick="Ozel()" class="custom-btn">Ayarla</button>
+    </div>
+    
+    <hr style="border-color: #555; margin: 25px 20px 15px 20px;">
+    
+    <button onclick="Iptal()" class="cancel-btn">İptal Et</button>
+</body>
+</html>
